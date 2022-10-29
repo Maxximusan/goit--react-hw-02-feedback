@@ -45,11 +45,28 @@ state = {
 })
   }
 
+  countTotalFeedback = () => {
+    const { good, neutral, bad } = this.state;
+    console.log(this.state);
+    return good + neutral + bad
+}
 
+  countPositiveFeedbackPercentage = () => {
+    const goodMark = this.state.good
+    const total = this.countTotalFeedback()
+    console.log(goodMark)
+    console.log(total);
+    
+    return Math.round(goodMark / total * 100);
+    
 
+    
+  }
+  
 
   render() {
     const mark = this.state
+    
 
     return (
       <section>
@@ -65,6 +82,8 @@ state = {
             <li>Good: {mark.good}</li>
             <li>Neutral: {mark.neutral}</li>
             <li>Bad: {mark.bad}</li>
+            <li>Total: {this.countTotalFeedback()}</li>
+            <li>Positive feedback: {this.countPositiveFeedbackPercentage()}%</li>
         </ul>
         </div>
         </section>
