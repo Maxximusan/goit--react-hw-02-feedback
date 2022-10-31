@@ -12,6 +12,12 @@ height: 40px;
 :hover {
     box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
     background: rgb(131,58,180);
-background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
+
+  background: linear-gradient(
+    90deg,
+    rgb(238, 112, 112) 0%,
+    rgb(88, 207, 104) 50%,
+    rgb(84, 206, 214) 100%
+  );
 }
 `
