@@ -1,5 +1,9 @@
 // import Counter from '../components/Counter/Counter'
 import React from 'react'
+import { Section } from 'components/Section/Section'
+import { FeedbackOptions } from 'components/FeedbackOptions/FeedbackOptions'
+import { Statistics } from 'components/Statistics/Statistics'
+import { Notification } from 'components/Notification/Notification'
 
 export class App extends React.Component{
 
@@ -14,36 +18,47 @@ state = {
   // value: this.props.initialValue
   }
   
-  onGood = (event) => {
-    console.log(event.target);
-    this.setState(prevstate => {
-      console.log(prevstate.good)
-      console.log(prevstate.value)
+
+  onLeaveFeedback = (option) => {
+     console.log(option);
+    this.setState((prevState) => {
       return {
-        good: prevstate.good + 1,
+        [option]: prevState[option] + 1,
         
-      }
+      };
+    });
+  };
+
+//   onGood = (event) => {
+//     console.log(event.target);
+//     this.setState(prevstate => {
+//       console.log(prevstate.good)
+//       console.log(prevstate.value)
+//       return {
+//         good: prevstate.good + 1,
+        
+//       }
      
-})
-  }
+// })
+//   }
 
-  onNeutral = (event) => {
-    console.log(event.currentTarget);
-    this.setState(prevstate => {
-      return {
-              neutral: prevstate.neutral + 1,
-             }
-})
-  }
+//   onNeutral = (event) => {
+//     console.log(event.currentTarget);
+//     this.setState(prevstate => {
+//       return {
+//               neutral: prevstate.neutral + 1,
+//              }
+// })
+//   }
 
-    onBad = (event) => {
-    console.log(event.currentTarget);
-    this.setState(prevstate => {
-      return {
-             bad: prevstate.bad + 1
-       }
-})
-  }
+//     onBad = (event) => {
+//     console.log(event.currentTarget);
+//     this.setState(prevstate => {
+//       return {
+//              bad: prevstate.bad + 1
+//        }
+// })
+//   }
 
   countTotalFeedback = () => {
     const { good, neutral, bad } = this.state;
@@ -56,8 +71,8 @@ state = {
     const total = this.countTotalFeedback()
     console.log(goodMark)
     console.log(total);
-    
-    return Math.round(goodMark / total * 100);
+    const averagePositiveFeedback = Math.round(goodMark / total * 100);
+    return total !== 0 ? averagePositiveFeedback : 0
     
 
     
@@ -69,29 +84,42 @@ state = {
     
 
     return (
-      <section>
-      <div>
-        <h2> Please leave feedback</h2>
-          <button type='button' onClick={this.onGood }>Good</button>
-          <button type='button' onClick={this.onNeutral}>Neutral</button>
-          <button type='button' onClick={this.onBad}>Bad</button>
-      </div> 
-        <div>
-          <h2> Statistic </h2>
-          <ul>
-            <li>Good: {mark.good}</li>
-            <li>Neutral: {mark.neutral}</li>
-            <li>Bad: {mark.bad}</li>
-            <li>Total: {this.countTotalFeedback()}</li>
-            <li>Positive feedback: {this.countPositiveFeedbackPercentage()}%</li>
-        </ul>
-        </div>
-        </section>
+      <>
+  
+      <Section title="Please leave feedback">
+          <FeedbackOptions options={this.state} onLeaveFeedback={this.onLeaveFeedback}></FeedbackOptions>
+      </Section>
+        <Section title="Statistic">
+          {this.countTotalFeedback() > 0
+          ? (
+       <Statistics
+            good={mark.good}
+            neutral={mark.neutral}
+            bad={mark.bad}
+            total={this.countTotalFeedback()}
+            positivePercentage={this.countPositiveFeedbackPercentage()}>
+            
+            </Statistics>
+         ) : (<Notification message="There is no feedback"></Notification>)}
+         </Section>
+        </>
     )
   }
 }
 
-        
+         
+          
+        //    <ul>
+        //     <li>Good: {mark.good}</li>
+        //     <li>Neutral: {mark.neutral}</li>
+        //     <li>Bad: {mark.bad}</li>
+        //     <li>Total: {this.countTotalFeedback()}</li>
+        //     <li>Positive feedback: {this.countPositiveFeedbackPercentage()}%</li>
+        // </ul>
+          
+
+      
+
 
 //   return (
 //     <div
